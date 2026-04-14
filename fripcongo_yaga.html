@@ -1,0 +1,1205 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Frip'Congo — La Friperie en Ligne #1 au Congo</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --green: #00A86B;
+  --green-dark: #007A4D;
+  --green-light: #E6F7F1;
+  --green-mid: #00C27C;
+  --white: #FFFFFF;
+  --off-white: #F7F8FA;
+  --grey-50: #F2F4F6;
+  --grey-100: #E8EAED;
+  --grey-200: #D1D5DB;
+  --grey-400: #9CA3AF;
+  --grey-600: #6B7280;
+  --grey-800: #1F2937;
+  --ink: #111827;
+  --red: #EF4444;
+  --amber: #F59E0B;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow: 0 4px 16px rgba(0,0,0,0.08);
+  --shadow-lg: 0 12px 40px rgba(0,0,0,0.12);
+  --radius: 12px;
+  --radius-sm: 8px;
+  --radius-lg: 20px;
+  --radius-full: 999px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  background: var(--white);
+  color: var(--ink);
+  font-size: 15px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+h1,h2,h3,h4 { font-family: 'DM Sans', sans-serif; font-weight: 700; line-height: 1.25; color: var(--ink); }
+button { cursor: pointer; font-family: 'DM Sans', sans-serif; }
+input, select, textarea { font-family: 'DM Sans', sans-serif; }
+a { text-decoration: none; color: inherit; }
+
+/* ─── NAV ─── */
+nav {
+  background: var(--white);
+  border-bottom: 1px solid var(--grey-100);
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  gap: 16px;
+}
+.nav-logo {
+  font-family: 'DM Serif Display', Georgia, serif;
+  font-size: 1.5rem;
+  font-weight: 400;
+  color: var(--green);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.nav-logo span { color: var(--grey-800); }
+.nav-search-wrap {
+  flex: 1;
+  max-width: 480px;
+  position: relative;
+}
+.nav-search {
+  width: 100%;
+  background: var(--grey-50);
+  border: 1.5px solid var(--grey-100);
+  border-radius: var(--radius-full);
+  padding: 9px 16px 9px 40px;
+  font-size: 0.88rem;
+  color: var(--ink);
+  outline: none;
+  transition: border-color .2s, background .2s;
+}
+.nav-search:focus { border-color: var(--green); background: var(--white); }
+.nav-search::placeholder { color: var(--grey-400); }
+.search-icon {
+  position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
+  color: var(--grey-400); font-size: 1rem; pointer-events: none;
+}
+.nav-links { display: flex; gap: 4px; list-style: none; }
+.nav-links a {
+  font-size: 0.85rem; font-weight: 500; color: var(--grey-600);
+  padding: 6px 12px; border-radius: var(--radius-sm);
+  transition: color .15s, background .15s;
+}
+.nav-links a:hover { color: var(--ink); background: var(--grey-50); }
+.nav-right { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+.cart-btn {
+  background: var(--grey-50); border: 1.5px solid var(--grey-100);
+  border-radius: var(--radius-full);
+  width: 40px; height: 40px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.1rem; position: relative;
+  transition: background .15s, border-color .15s;
+}
+.cart-btn:hover { background: var(--green-light); border-color: var(--green); }
+.cart-badge {
+  position: absolute; top: -4px; right: -4px;
+  background: var(--green); color: white;
+  border-radius: 50%; width: 18px; height: 18px;
+  font-size: 0.65rem; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  border: 2px solid var(--white);
+}
+.sell-btn {
+  background: var(--green); color: white;
+  border: none; border-radius: var(--radius-full);
+  padding: 9px 20px; font-size: 0.88rem; font-weight: 600;
+  transition: background .15s, transform .1s;
+  white-space: nowrap;
+}
+.sell-btn:hover { background: var(--green-dark); transform: translateY(-1px); }
+
+/* ─── TABS BAR ─── */
+.tabs-bar {
+  background: var(--white);
+  border-bottom: 1px solid var(--grey-100);
+  display: flex; overflow-x: auto;
+  padding: 0 24px; gap: 2px;
+  scrollbar-width: none;
+}
+.tabs-bar::-webkit-scrollbar { display: none; }
+.tab-btn {
+  background: transparent; border: none;
+  color: var(--grey-600); font-size: 0.82rem; font-weight: 500;
+  padding: 12px 14px; white-space: nowrap;
+  border-bottom: 2px solid transparent;
+  transition: color .15s, border-color .15s;
+  display: flex; align-items: center; gap: 6px;
+}
+.tab-btn.active { color: var(--green); border-bottom-color: var(--green); font-weight: 600; }
+.tab-btn:hover:not(.active) { color: var(--ink); }
+
+/* ─── PANELS ─── */
+.panel { display: none; animation: fadeUp .25s ease; }
+.panel.active { display: block; }
+@keyframes fadeUp { from { opacity:0; transform: translateY(6px); } to { opacity:1; transform: translateY(0); } }
+
+/* ─── HERO ─── */
+.hero {
+  background: var(--green);
+  padding: 56px 48px;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 40px; position: relative; overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute; right: -80px; top: -80px;
+  width: 400px; height: 400px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 50%;
+}
+.hero::after {
+  content: '';
+  position: absolute; right: 80px; bottom: -120px;
+  width: 280px; height: 280px;
+  background: rgba(255,255,255,0.04);
+  border-radius: 50%;
+}
+.hero-content { position: relative; z-index: 1; max-width: 560px; }
+.hero-pill {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(255,255,255,0.18);
+  color: white; border-radius: var(--radius-full);
+  padding: 5px 14px; font-size: 0.78rem; font-weight: 600;
+  letter-spacing: 0.3px; margin-bottom: 20px;
+}
+.hero h1 {
+  font-size: 2.8rem; font-weight: 700;
+  color: white; line-height: 1.15; margin-bottom: 14px;
+}
+.hero h1 em { font-style: italic; font-family: 'DM Serif Display', serif; font-weight: 400; }
+.hero p {
+  color: rgba(255,255,255,0.85); font-size: 1rem;
+  margin-bottom: 32px; max-width: 440px; line-height: 1.65;
+}
+.hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+.btn-white {
+  background: white; color: var(--green);
+  border: none; border-radius: var(--radius-full);
+  padding: 13px 28px; font-size: 0.92rem; font-weight: 700;
+  transition: transform .15s, box-shadow .15s;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+}
+.btn-white:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.16); }
+.btn-white-outline {
+  background: transparent; color: white;
+  border: 1.5px solid rgba(255,255,255,0.5);
+  border-radius: var(--radius-full);
+  padding: 13px 28px; font-size: 0.92rem; font-weight: 600;
+  transition: background .15s, border-color .15s;
+}
+.btn-white-outline:hover { background: rgba(255,255,255,0.12); border-color: white; }
+.hero-stats {
+  display: flex; gap: 32px; margin-top: 40px; padding-top: 32px;
+  border-top: 1px solid rgba(255,255,255,0.18);
+}
+.hero-stat-num { font-size: 1.6rem; font-weight: 700; color: white; display: block; }
+.hero-stat-label { font-size: 0.75rem; color: rgba(255,255,255,0.7); font-weight: 500; }
+.hero-badge-wrap { position: relative; z-index: 1; flex-shrink: 0; }
+.hero-badge {
+  background: white; border-radius: var(--radius-lg);
+  padding: 28px 32px; text-align: center;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+  min-width: 180px;
+}
+.hero-badge-num {
+  font-size: 3rem; font-weight: 800; color: var(--green);
+  display: block; line-height: 1;
+}
+.hero-badge-text { font-size: 0.8rem; color: var(--grey-600); font-weight: 500; margin-top: 6px; }
+
+/* ─── SECTION ─── */
+.section { padding: 48px 48px; }
+.section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 28px; }
+.section-title { font-size: 1.4rem; font-weight: 700; }
+.section-link { font-size: 0.85rem; font-weight: 600; color: var(--green); transition: color .15s; }
+.section-link:hover { color: var(--green-dark); text-decoration: underline; }
+
+/* ─── CATEGORY CHIPS ─── */
+.categories { background: var(--off-white); }
+.categories-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; }
+.cat-card {
+  background: var(--white); border-radius: var(--radius);
+  border: 1.5px solid var(--grey-100);
+  padding: 24px 20px; text-align: center; cursor: pointer;
+  transition: border-color .2s, box-shadow .2s, transform .2s;
+}
+.cat-card:hover { border-color: var(--green); box-shadow: var(--shadow); transform: translateY(-3px); }
+.cat-icon { font-size: 2.2rem; margin-bottom: 10px; display: block; }
+.cat-name { font-size: 0.95rem; font-weight: 600; color: var(--ink); margin-bottom: 3px; }
+.cat-count { font-size: 0.75rem; color: var(--grey-400); }
+
+/* ─── PRODUCT GRID ─── */
+.products-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 20px; }
+.product-card {
+  background: var(--white); border-radius: var(--radius);
+  border: 1.5px solid var(--grey-100); overflow: hidden;
+  transition: box-shadow .2s, transform .2s; cursor: pointer;
+}
+.product-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-4px); border-color: transparent; }
+.product-img {
+  width: 100%; height: 220px;
+  background: var(--grey-50);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 4rem; position: relative;
+}
+.product-badge {
+  position: absolute; top: 10px; left: 10px;
+  border-radius: var(--radius-full); padding: 3px 10px;
+  font-size: 0.68rem; font-weight: 700; letter-spacing: 0.3px;
+  background: var(--green); color: white;
+}
+.product-badge.new { background: var(--green); }
+.product-badge.used { background: var(--grey-600); }
+.wishlist-btn {
+  position: absolute; top: 10px; right: 10px;
+  background: white; border: none; border-radius: 50%;
+  width: 34px; height: 34px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.95rem; box-shadow: var(--shadow-sm);
+  transition: transform .2s;
+}
+.wishlist-btn:hover { transform: scale(1.15); }
+.product-info { padding: 14px 16px 16px; }
+.product-name { font-size: 0.9rem; font-weight: 600; margin-bottom: 3px; color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.product-meta { font-size: 0.75rem; color: var(--grey-400); margin-bottom: 12px; }
+.product-footer { display: flex; align-items: center; justify-content: space-between; }
+.product-price { font-size: 1rem; font-weight: 700; color: var(--ink); }
+.add-cart-btn {
+  background: var(--green-light); color: var(--green);
+  border: none; border-radius: var(--radius-full);
+  padding: 6px 14px; font-size: 0.78rem; font-weight: 700;
+  transition: background .15s;
+}
+.add-cart-btn:hover { background: var(--green); color: white; }
+
+/* ─── SELL BANNER ─── */
+.sell-banner {
+  background: var(--green-light);
+  border-radius: var(--radius-lg);
+  margin: 0 48px 48px;
+  padding: 44px 48px;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 32px; border: 1.5px solid rgba(0,168,107,0.15);
+}
+.sell-banner h2 { font-size: 1.6rem; margin-bottom: 8px; }
+.sell-banner p { color: var(--grey-600); max-width: 440px; font-size: 0.92rem; }
+.btn-green {
+  background: var(--green); color: white;
+  border: none; border-radius: var(--radius-full);
+  padding: 14px 28px; font-size: 0.92rem; font-weight: 700;
+  white-space: nowrap;
+  transition: background .15s, transform .1s;
+  flex-shrink: 0;
+}
+.btn-green:hover { background: var(--green-dark); transform: translateY(-1px); }
+
+/* ─── FORM CARD ─── */
+.seller-container { display: grid; grid-template-columns: 1fr 320px; gap: 28px; padding: 40px 48px; }
+.form-card { background: var(--white); border: 1.5px solid var(--grey-100); border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-sm); }
+.form-card-header { background: var(--off-white); padding: 22px 28px; border-bottom: 1px solid var(--grey-100); }
+.form-card-header h3 { font-size: 1.1rem; margin-bottom: 4px; }
+.form-card-header p { font-size: 0.82rem; color: var(--grey-600); }
+.form-body { padding: 28px; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.form-group { margin-bottom: 18px; }
+.form-label { display: block; font-size: 0.78rem; font-weight: 600; color: var(--grey-600); margin-bottom: 6px; }
+.form-control {
+  width: 100%; background: var(--white);
+  border: 1.5px solid var(--grey-200); border-radius: var(--radius-sm);
+  padding: 10px 14px; font-size: 0.88rem; color: var(--ink); outline: none;
+  transition: border-color .2s, box-shadow .2s;
+}
+.form-control:focus { border-color: var(--green); box-shadow: 0 0 0 3px rgba(0,168,107,0.1); }
+select.form-control { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236B7280' d='M6 8L1 3h10z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; appearance: none; }
+textarea.form-control { resize: vertical; min-height: 90px; }
+.upload-zone {
+  border: 2px dashed var(--grey-200); border-radius: var(--radius);
+  padding: 32px; text-align: center; cursor: pointer;
+  transition: border-color .2s, background .2s;
+}
+.upload-zone:hover { border-color: var(--green); background: var(--green-light); }
+.upload-zone .icon { font-size: 2rem; margin-bottom: 8px; }
+.upload-zone p { font-size: 0.82rem; color: var(--grey-600); }
+.btn-primary {
+  background: var(--green); color: white; border: none;
+  border-radius: var(--radius-full);
+  padding: 13px 28px; font-size: 0.9rem; font-weight: 700;
+  transition: background .15s, transform .1s;
+}
+.btn-primary:hover { background: var(--green-dark); transform: translateY(-1px); }
+.btn-outline {
+  background: transparent; color: var(--grey-600);
+  border: 1.5px solid var(--grey-200); border-radius: var(--radius-full);
+  padding: 13px 28px; font-size: 0.9rem; font-weight: 600;
+  transition: border-color .15s, color .15s;
+}
+.btn-outline:hover { border-color: var(--grey-400); color: var(--ink); }
+
+/* ─── PRICE CALC ─── */
+.price-calc { background: var(--white); border: 1.5px solid var(--grey-100); border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-sm); position: sticky; top: 80px; }
+.price-calc-header { background: var(--green); padding: 18px 22px; }
+.price-calc-header h4 { color: white; font-size: 1rem; }
+.price-calc-body { padding: 22px; }
+.calc-row { display: flex; justify-content: space-between; align-items: center; padding: 11px 0; border-bottom: 1px solid var(--grey-100); font-size: 0.85rem; }
+.calc-row:last-of-type { border-bottom: none; }
+.calc-row.total { font-weight: 700; font-size: 0.95rem; }
+.calc-row.commission { color: var(--grey-400); font-size: 0.8rem; }
+.calc-row.you-get { color: var(--green); font-weight: 700; }
+.price-input-wrap { position: relative; margin-bottom: 16px; }
+.price-input-wrap input { width: 100%; padding: 12px 48px 12px 14px; border: 1.5px solid var(--grey-200); border-radius: var(--radius-sm); font-size: 1.1rem; font-weight: 700; color: var(--ink); outline: none; }
+.price-input-wrap input:focus { border-color: var(--green); box-shadow: 0 0 0 3px rgba(0,168,107,0.1); }
+.price-input-wrap span { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); font-size: 0.78rem; color: var(--grey-400); font-weight: 600; }
+
+/* ─── DASHBOARD ─── */
+.dashboard { padding: 40px 48px; }
+.stats-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; margin-bottom: 28px; }
+.stat-card {
+  background: var(--white); border: 1.5px solid var(--grey-100);
+  border-radius: var(--radius); padding: 22px 20px;
+  box-shadow: var(--shadow-sm);
+}
+.stat-card-val { font-size: 1.5rem; font-weight: 700; display: block; margin-bottom: 4px; }
+.stat-card-val.green { color: var(--green); }
+.stat-card-val.red { color: var(--red); }
+.stat-card-val.amber { color: var(--amber); }
+.stat-card-label { font-size: 0.75rem; color: var(--grey-400); font-weight: 500; }
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.table-card { background: var(--white); border: 1.5px solid var(--grey-100); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-sm); }
+.table-card-header { padding: 16px 20px; border-bottom: 1px solid var(--grey-100); font-size: 0.95rem; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+.badge { background: var(--green-light); color: var(--green); border-radius: var(--radius-full); padding: 2px 10px; font-size: 0.72rem; font-weight: 700; }
+table { width: 100%; border-collapse: collapse; }
+thead th { background: var(--off-white); padding: 10px 16px; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--grey-400); text-align: left; border-bottom: 1px solid var(--grey-100); }
+tbody tr { border-bottom: 1px solid var(--grey-100); transition: background .1s; }
+tbody tr:last-child { border-bottom: none; }
+tbody tr:hover { background: var(--off-white); }
+tbody td { padding: 12px 16px; font-size: 0.85rem; color: var(--grey-800); }
+.status-pill { border-radius: var(--radius-full); padding: 3px 10px; font-size: 0.72rem; font-weight: 600; display: inline-block; }
+.status-pill.active { background: var(--green-light); color: var(--green); }
+.status-pill.approved { background: #FEF3C7; color: #D97706; }
+.status-pill.pending { background: #FEE2E2; color: var(--red); }
+.status-pill.rejected { background: var(--grey-100); color: var(--grey-600); }
+.action-btn { background: var(--green); color: white; border: none; border-radius: var(--radius-full); padding: 5px 12px; font-size: 0.72rem; font-weight: 700; cursor: pointer; margin-right: 4px; transition: background .15s; }
+.action-btn:hover { background: var(--green-dark); }
+.action-btn.reject { background: var(--red); }
+.action-btn.reject:hover { background: #DC2626; }
+
+/* ─── CHECKOUT ─── */
+.checkout { padding: 40px 48px; }
+.steps-indicator { display: flex; align-items: center; margin-bottom: 32px; gap: 0; }
+.step-item { display: flex; align-items: center; gap: 10px; flex: 1; position: relative; }
+.step-item:not(:last-child)::after { content: ''; flex: 1; height: 1px; background: var(--grey-200); margin: 0 8px; }
+.step-circle { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 700; background: var(--grey-100); color: var(--grey-400); border: 2px solid var(--grey-200); flex-shrink: 0; transition: all .2s; }
+.step-item.active .step-circle { background: var(--green); color: white; border-color: var(--green); }
+.step-item.done .step-circle { background: var(--green); color: white; border-color: var(--green); }
+.step-label { font-size: 0.78rem; font-weight: 600; color: var(--grey-400); white-space: nowrap; }
+.step-item.active .step-label { color: var(--green); }
+.step-item.done .step-label { color: var(--green); }
+.checkout-grid { display: grid; grid-template-columns: 1fr 300px; gap: 24px; }
+.checkout-main { background: var(--white); border: 1.5px solid var(--grey-100); border-radius: var(--radius-lg); padding: 28px; box-shadow: var(--shadow-sm); }
+.checkout-main h3 { font-size: 1rem; margin-bottom: 20px; padding-bottom: 14px; border-bottom: 1px solid var(--grey-100); }
+.delivery-options { display: flex; flex-direction: column; gap: 10px; margin: 16px 0; }
+.delivery-option { border: 1.5px solid var(--grey-200); border-radius: var(--radius); padding: 14px 16px; cursor: pointer; transition: border-color .15s, background .15s; }
+.delivery-option.selected { border-color: var(--green); background: var(--green-light); }
+.delivery-option-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px; }
+.delivery-name { font-size: 0.88rem; font-weight: 600; }
+.delivery-price { font-size: 0.9rem; font-weight: 700; color: var(--green); }
+.delivery-desc { font-size: 0.75rem; color: var(--grey-400); }
+.payment-methods { display: grid; grid-template-columns: repeat(2,1fr); gap: 10px; margin: 16px 0; }
+.payment-method { border: 1.5px solid var(--grey-200); border-radius: var(--radius); padding: 14px; cursor: pointer; text-align: center; transition: border-color .15s, background .15s; }
+.payment-method.selected { border-color: var(--green); background: var(--green-light); }
+.pm-icon { font-size: 1.8rem; margin-bottom: 5px; }
+.pm-name { font-size: 0.75rem; font-weight: 600; color: var(--grey-800); }
+.checkout-actions { display: flex; gap: 10px; margin-top: 20px; }
+.btn-back { background: var(--grey-50); border: 1.5px solid var(--grey-200); border-radius: var(--radius-full); padding: 11px 22px; font-size: 0.85rem; font-weight: 600; color: var(--grey-600); cursor: pointer; transition: background .15s; }
+.btn-back:hover { background: var(--grey-100); }
+.btn-next { flex: 1; background: var(--green); color: white; border: none; border-radius: var(--radius-full); padding: 12px 22px; font-size: 0.88rem; font-weight: 700; cursor: pointer; transition: background .15s; }
+.btn-next:hover { background: var(--green-dark); }
+.order-summary { background: var(--white); border: 1.5px solid var(--grey-100); border-radius: var(--radius-lg); padding: 22px; box-shadow: var(--shadow-sm); position: sticky; top: 80px; }
+.order-summary h4 { font-size: 0.95rem; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--grey-100); }
+.order-item { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+.order-item-img { width: 46px; height: 46px; background: var(--grey-50); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; flex-shrink: 0; border: 1px solid var(--grey-100); }
+.order-item-name { font-size: 0.82rem; font-weight: 600; color: var(--ink); }
+.order-item-meta { font-size: 0.72rem; color: var(--grey-400); }
+.order-item-price { margin-left: auto; font-size: 0.88rem; font-weight: 700; white-space: nowrap; }
+.order-divider { border: none; border-top: 1px solid var(--grey-100); margin: 12px 0; }
+.order-row { display: flex; justify-content: space-between; font-size: 0.82rem; color: var(--grey-600); margin-bottom: 6px; }
+.order-total { font-weight: 700; font-size: 0.95rem; color: var(--ink); margin-top: 4px; }
+
+/* ─── TRACKING ─── */
+.tracking { padding: 40px 48px; max-width: 640px; margin: 0 auto; }
+.tracking-header { background: var(--green); border-radius: var(--radius-lg); padding: 24px 28px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 32px; }
+.tracking-id { font-size: 0.75rem; font-weight: 600; color: rgba(255,255,255,0.7); letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 4px; }
+.tracking-status-badge { background: white; color: var(--green); border-radius: var(--radius-full); padding: 7px 16px; font-size: 0.78rem; font-weight: 700; flex-shrink: 0; }
+.timeline { display: flex; flex-direction: column; gap: 0; position: relative; }
+.timeline::before { content: ''; position: absolute; left: 15px; top: 18px; bottom: 18px; width: 2px; background: var(--grey-100); }
+.timeline-item { display: flex; gap: 20px; padding: 14px 0; position: relative; }
+.timeline-dot { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; position: relative; z-index: 1; background: var(--white); border: 2px solid var(--grey-200); flex-shrink: 0; }
+.timeline-dot.done { background: var(--green); border-color: var(--green); color: white; font-size: 0.75rem; }
+.timeline-dot.active { background: var(--green); border-color: var(--green); color: white; }
+.timeline-content { padding-top: 4px; }
+.timeline-label { font-size: 0.9rem; font-weight: 600; color: var(--ink); margin-bottom: 2px; }
+.timeline-label.done { color: var(--green); }
+.timeline-label.active { color: var(--green); }
+.timeline-desc { font-size: 0.78rem; color: var(--grey-400); }
+.timeline-time { font-size: 0.72rem; color: var(--grey-400); margin-top: 3px; }
+.rider-card { background: var(--white); border: 1.5px solid var(--grey-100); border-radius: var(--radius); padding: 18px 22px; box-shadow: var(--shadow-sm); display: flex; align-items: center; gap: 14px; margin-top: 24px; }
+.rider-name { font-size: 0.92rem; font-weight: 700; }
+.rider-role { font-size: 0.75rem; color: var(--grey-400); }
+.call-btn { margin-left: auto; background: var(--green); color: white; border: none; border-radius: var(--radius-full); padding: 9px 18px; font-size: 0.8rem; font-weight: 700; cursor: pointer; transition: background .15s; }
+.call-btn:hover { background: var(--green-dark); }
+
+/* ─── WHATSAPP ─── */
+.whatsapp { padding: 40px 48px; display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.wa-settings { background: var(--white); border: 1.5px solid var(--grey-100); border-radius: var(--radius-lg); padding: 28px; box-shadow: var(--shadow-sm); }
+.wa-settings h3 { font-size: 1.05rem; margin-bottom: 6px; }
+.wa-settings > p { font-size: 0.82rem; color: var(--grey-400); margin-bottom: 22px; }
+.wa-toggle-item { display: flex; align-items: center; justify-content: space-between; padding: 13px 0; border-bottom: 1px solid var(--grey-100); }
+.wa-toggle-item:last-of-type { border-bottom: none; }
+.wa-toggle-label { font-size: 0.85rem; font-weight: 500; color: var(--ink); }
+.wa-toggle-label small { display: block; font-size: 0.72rem; color: var(--grey-400); font-weight: 400; margin-top: 2px; }
+.toggle { width: 44px; height: 24px; border-radius: var(--radius-full); background: var(--grey-200); position: relative; cursor: pointer; transition: background .2s; border: none; flex-shrink: 0; }
+.toggle.on { background: var(--green); }
+.toggle::after { content: ''; position: absolute; width: 18px; height: 18px; background: white; border-radius: 50%; top: 3px; left: 3px; transition: left .2s; box-shadow: 0 1px 4px rgba(0,0,0,0.2); }
+.toggle.on::after { left: 23px; }
+.wa-preview { background: var(--white); border: 1.5px solid var(--grey-100); border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-sm); }
+.wa-preview-header { background: #25D366; color: white; padding: 14px 18px; display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 0.88rem; }
+.wa-chat { background: #E5DDD5; padding: 14px; min-height: 380px; max-height: 380px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
+.wa-bubble { max-width: 82%; padding: 10px 14px; border-radius: 12px 12px 12px 2px; font-size: 0.8rem; line-height: 1.55; background: white; box-shadow: var(--shadow-sm); animation: fadeUp .3s ease; }
+.wa-bubble-time { font-size: 0.62rem; color: #888; text-align: right; margin-top: 4px; }
+.wa-footer { padding: 14px 18px; border-top: 1px solid var(--grey-100); }
+.sim-btn { width: 100%; background: #25D366; color: white; border: none; border-radius: var(--radius-full); padding: 11px; font-size: 0.85rem; font-weight: 700; cursor: pointer; transition: background .15s; }
+.sim-btn:hover { background: #1EA952; }
+
+/* ─── REGISTRATION ─── */
+.registration { padding: 40px 48px; display: grid; grid-template-columns: 1fr 300px; gap: 24px; align-items: start; }
+.reg-steps { background: var(--white); border: 1.5px solid var(--grey-100); border-radius: var(--radius-lg); padding: 22px; box-shadow: var(--shadow-sm); position: sticky; top: 80px; }
+.reg-steps h4 { font-size: 0.88rem; color: var(--grey-400); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 14px; }
+.reg-step-item { display: flex; align-items: center; gap: 12px; padding: 10px; border-radius: var(--radius-sm); transition: background .15s; }
+.reg-step-item.active { background: var(--green-light); }
+.reg-step-num { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 700; background: var(--grey-100); color: var(--grey-400); flex-shrink: 0; }
+.reg-step-item.active .reg-step-num { background: var(--green); color: white; }
+.reg-step-item.done .reg-step-num { background: var(--green); color: white; }
+.reg-step-name { font-size: 0.85rem; font-weight: 500; color: var(--grey-400); }
+.reg-step-item.active .reg-step-name { color: var(--green); font-weight: 700; }
+.btn-back-reg { background: var(--grey-50); border: 1.5px solid var(--grey-200); border-radius: var(--radius-full); padding: 11px 22px; font-size: 0.85rem; font-weight: 600; color: var(--grey-600); cursor: pointer; }
+
+/* ─── ANALYTICS ─── */
+.analytics { padding: 40px 48px; }
+.city-bar { display: flex; gap: 10px; align-items: center; margin-bottom: 12px; }
+.city-bar-label { width: 90px; font-size: 0.78rem; color: var(--grey-600); }
+.city-bar-track { flex: 1; height: 8px; background: var(--grey-100); border-radius: var(--radius-full); overflow: hidden; }
+.city-bar-fill { height: 100%; background: var(--green); border-radius: var(--radius-full); transition: width 1s ease; }
+.city-bar-val { width: 44px; text-align: right; font-size: 0.8rem; font-weight: 700; color: var(--ink); }
+
+/* ─── FOOTER ─── */
+footer { background: var(--grey-800); color: var(--grey-400); padding: 48px; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 36px; }
+.footer-logo { font-family: 'DM Serif Display', serif; color: white; font-size: 1.4rem; margin-bottom: 12px; display: block; }
+footer p { font-size: 0.82rem; line-height: 1.75; }
+footer h5 { color: white; font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 14px; }
+footer ul { list-style: none; display: flex; flex-direction: column; gap: 9px; }
+footer ul li a { font-size: 0.82rem; color: var(--grey-400); transition: color .15s; }
+footer ul li a:hover { color: white; }
+.footer-bottom { background: #111827; text-align: center; padding: 16px; border-top: 1px solid rgba(255,255,255,0.06); font-size: 0.75rem; color: var(--grey-600); }
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 900px) {
+  .categories-grid, .products-grid { grid-template-columns: repeat(2,1fr); }
+  .seller-container, .checkout-grid, .two-col, .whatsapp, .registration { grid-template-columns: 1fr; }
+  .stats-row { grid-template-columns: repeat(2,1fr); }
+  footer { grid-template-columns: 1fr 1fr; }
+  .hero { padding: 40px 24px; flex-direction: column; }
+  .hero h1 { font-size: 2rem; }
+  .section, .dashboard, .checkout, .tracking, .analytics { padding: 28px 20px; }
+  .sell-banner { margin: 0 20px 32px; flex-direction: column; }
+  nav { padding: 0 16px; }
+  .nav-links { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Frip'<span>Congo</span></div>
+  <div class="nav-search-wrap">
+    <span class="search-icon">🔍</span>
+    <input type="text" class="nav-search" placeholder="Rechercher des articles, marques…"/>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#">Femmes</a></li>
+    <li><a href="#">Hommes</a></li>
+    <li><a href="#">Enfants</a></li>
+    <li><a href="#">Chaussures</a></li>
+  </ul>
+  <div class="nav-right">
+    <button class="cart-btn">🛒<span class="cart-badge">3</span></button>
+    <button class="sell-btn" onclick="switchTab('vendre')">+ Vendre</button>
+  </div>
+</nav>
+
+<!-- TABS BAR -->
+<div class="tabs-bar">
+  <button class="tab-btn active" onclick="switchTab('accueil')">🏠 Accueil</button>
+  <button class="tab-btn" onclick="switchTab('vendre')">📦 Vendre un article</button>
+  <button class="tab-btn" onclick="switchTab('vendeur')">📊 Tableau vendeur</button>
+  <button class="tab-btn" onclick="switchTab('checkout')">🛒 Checkout</button>
+  <button class="tab-btn" onclick="switchTab('tracking')">📍 Suivi commande</button>
+  <button class="tab-btn" onclick="switchTab('whatsapp')">💬 Notifications WA</button>
+  <button class="tab-btn" onclick="switchTab('inscription')">✅ Inscription vendeur</button>
+  <button class="tab-btn" onclick="switchTab('admin')">⚙️ Admin</button>
+  <button class="tab-btn" onclick="switchTab('analytics')">📈 Analytiques</button>
+</div>
+
+<!-- ══════════════════════════════
+     PANEL 1: ACCUEIL
+══════════════════════════════ -->
+<div class="panel active" id="panel-accueil">
+
+  <div class="hero">
+    <div class="hero-content">
+      <div class="hero-pill">🇨🇩 La Friperie #1 au Congo</div>
+      <h1>Mode <em>preloved</em>,<br/>prix imbattables</h1>
+      <p>Des milliers d'articles de qualité de vendeurs à Kinshasa, Goma et Lubumbashi. Achetez malin, vendez facilement, gagnez via Mobile Money.</p>
+      <div class="hero-actions">
+        <button class="btn-white" onclick="switchTab('checkout')">Explorer les articles</button>
+        <button class="btn-white-outline" onclick="switchTab('vendre')">Commencer à vendre</button>
+      </div>
+      <div class="hero-stats">
+        <div><span class="hero-stat-num">12 400</span><span class="hero-stat-label">Articles</span></div>
+        <div><span class="hero-stat-num">3 280</span><span class="hero-stat-label">Vendeurs</span></div>
+        <div><span class="hero-stat-num">28 900</span><span class="hero-stat-label">Clients satisfaits</span></div>
+      </div>
+    </div>
+    <div class="hero-badge-wrap">
+      <div class="hero-badge">
+        <span class="hero-badge-num">-70%</span>
+        <div class="hero-badge-text">jusqu'à 70% de réduction<br/>sur des milliers d'articles</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Categories -->
+  <div class="section categories">
+    <div class="section-header">
+      <h2 class="section-title">Parcourir par catégorie</h2>
+      <a class="section-link" href="#">Voir tout →</a>
+    </div>
+    <div class="categories-grid">
+      <div class="cat-card"><span class="cat-icon">👔</span><div class="cat-name">Hommes</div><div class="cat-count">3 412 articles</div></div>
+      <div class="cat-card"><span class="cat-icon">👗</span><div class="cat-name">Femmes</div><div class="cat-count">5 890 articles</div></div>
+      <div class="cat-card"><span class="cat-icon">👶</span><div class="cat-name">Enfants</div><div class="cat-count">1 780 articles</div></div>
+      <div class="cat-card"><span class="cat-icon">👟</span><div class="cat-name">Chaussures</div><div class="cat-count">2 340 articles</div></div>
+    </div>
+  </div>
+
+  <!-- Products -->
+  <div class="section">
+    <div class="section-header">
+      <h2 class="section-title">Nouvelles arrivées</h2>
+      <a class="section-link" href="#">Voir tout →</a>
+    </div>
+    <div class="products-grid" id="products-grid"></div>
+  </div>
+
+  <!-- Sell Banner -->
+  <div class="sell-banner">
+    <div>
+      <h2>Vous avez des vêtements à vendre ?</h2>
+      <p>Rejoignez plus de 3 000 vendeurs sur Frip'Congo. Publiez gratuitement et touchez vos gains via Mobile Money.</p>
+    </div>
+    <button class="btn-green" onclick="switchTab('vendre')">Commencer à vendre →</button>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════════
+     PANEL 2: VENDRE
+══════════════════════════════ -->
+<div class="panel" id="panel-vendre">
+  <div class="seller-container">
+    <div>
+      <div class="form-card">
+        <div class="form-card-header">
+          <h3>📦 Publier un article</h3>
+          <p>Remplissez les détails ci-dessous. Chaque vente inclut 10% de commission Frip'Congo.</p>
+        </div>
+        <div class="form-body">
+          <div class="form-group">
+            <label class="form-label">Titre de l'article *</label>
+            <input type="text" class="form-control" placeholder="Ex: Robe en wax taille M — comme neuve"/>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Catégorie *</label>
+              <select class="form-control"><option>-- Choisir --</option><option>Femmes</option><option>Hommes</option><option>Enfants</option><option>Chaussures</option><option>Accessoires</option></select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">État *</label>
+              <select class="form-control"><option>Neuf avec étiquette</option><option>Neuf sans étiquette</option><option>Très bon état</option><option>Bon état</option><option>Correct</option></select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label class="form-label">Taille</label><input type="text" class="form-control" placeholder="S, M, L, XL, 42…"/></div>
+            <div class="form-group"><label class="form-label">Couleur</label><input type="text" class="form-control" placeholder="Ex: Bleu marine"/></div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Description</label>
+            <textarea class="form-control" placeholder="Décrivez votre article: matière, marque, défauts éventuels…"></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Photos (max 5)</label>
+            <div class="upload-zone">
+              <div class="icon">📸</div>
+              <p><strong>Cliquez pour ajouter des photos</strong><br/>JPG, PNG — max 5 Mo par photo</p>
+            </div>
+          </div>
+          <button class="btn-primary" style="width:100%;padding:14px;">Publier l'article →</button>
+        </div>
+      </div>
+    </div>
+    <div class="price-calc">
+      <div class="price-calc-header"><h4>💰 Calculateur de prix</h4></div>
+      <div class="price-calc-body">
+        <p style="font-size:0.8rem;color:var(--grey-400);margin-bottom:14px;">Entrez votre prix pour voir combien vous gagnez.</p>
+        <div class="price-input-wrap">
+          <input type="number" id="seller-price" placeholder="0" oninput="calcPrice(this.value)"/>
+          <span>FC</span>
+        </div>
+        <div class="calc-row"><span>Votre prix</span><span id="calc-seller">0 FC</span></div>
+        <div class="calc-row commission"><span>Commission Frip'Congo (10%)</span><span id="calc-commission">0 FC</span></div>
+        <div class="calc-row total"><span>Prix acheteur</span><span id="calc-buyer">0 FC</span></div>
+        <div class="calc-row you-get"><span>✅ Vous recevez</span><span id="calc-youget">0 FC</span></div>
+        <p style="font-size:0.72rem;color:var(--grey-400);margin-top:12px;line-height:1.6;">Paiement via Airtel Money ou M-Pesa, sous 48h après livraison confirmée.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════
+     PANEL 3: DASHBOARD VENDEUR
+══════════════════════════════ -->
+<div class="panel" id="panel-vendeur">
+  <div class="dashboard">
+    <h2 style="font-size:1.4rem;margin-bottom:4px;">Bonjour, Marie-Claire 👋</h2>
+    <p style="color:var(--grey-400);margin-bottom:28px;font-size:0.88rem;">Résumé de votre boutique</p>
+    <div class="stats-row">
+      <div class="stat-card"><span class="stat-card-val green">47</span><span class="stat-card-label">Articles actifs</span></div>
+      <div class="stat-card"><span class="stat-card-val amber">128 000 FC</span><span class="stat-card-label">Gains totaux</span></div>
+      <div class="stat-card"><span class="stat-card-val green">34</span><span class="stat-card-label">Ventes réalisées</span></div>
+      <div class="stat-card"><span class="stat-card-val" style="color:var(--grey-800)">4.9 ⭐</span><span class="stat-card-label">Note moyenne</span></div>
+    </div>
+    <div class="two-col">
+      <div class="table-card">
+        <div class="table-card-header">Mes articles récents <span class="badge">47</span></div>
+        <table>
+          <thead><tr><th>Article</th><th>Prix vendeur</th><th>Prix acheteur</th><th>Statut</th></tr></thead>
+          <tbody>
+            <tr><td>👗 Robe wax taille M</td><td>15 000 FC</td><td>16 500 FC</td><td><span class="status-pill active">En vente</span></td></tr>
+            <tr><td>👟 Sneakers Nike 42</td><td>25 000 FC</td><td>27 500 FC</td><td><span class="status-pill approved">Vendu</span></td></tr>
+            <tr><td>👔 Chemise Oxford blanc</td><td>8 000 FC</td><td>8 800 FC</td><td><span class="status-pill active">En vente</span></td></tr>
+            <tr><td>👜 Sac à main cuir</td><td>18 000 FC</td><td>19 800 FC</td><td><span class="status-pill pending">En attente</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="table-card">
+        <div class="table-card-header">Historique paiements</div>
+        <table>
+          <thead><tr><th>Date</th><th>Article</th><th>Gains</th></tr></thead>
+          <tbody>
+            <tr><td>28 Mar</td><td>Sneakers Nike</td><td style="color:var(--green);font-weight:700;">+25 000 FC</td></tr>
+            <tr><td>22 Mar</td><td>Robe wax</td><td style="color:var(--green);font-weight:700;">+15 000 FC</td></tr>
+            <tr><td>15 Mar</td><td>Jean slim</td><td style="color:var(--green);font-weight:700;">+12 000 FC</td></tr>
+            <tr><td>08 Mar</td><td>Veste jean</td><td style="color:var(--green);font-weight:700;">+20 000 FC</td></tr>
+          </tbody>
+        </table>
+        <div style="padding:18px;border-top:1px solid var(--grey-100);">
+          <div style="font-size:1.1rem;font-weight:700;color:var(--green);margin-bottom:2px;">72 000 FC disponibles</div>
+          <div style="font-size:0.75rem;color:var(--grey-400);margin-bottom:14px;">Disponible pour retrait</div>
+          <button class="btn-primary" style="width:100%;">Retrait Mobile Money 💰</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════
+     PANEL 4: CHECKOUT
+══════════════════════════════ -->
+<div class="panel" id="panel-checkout">
+  <div class="checkout">
+    <h2 style="font-size:1.4rem;margin-bottom:24px;">Finaliser ma commande</h2>
+    <div class="steps-indicator">
+      <div class="step-item done" id="st1"><div class="step-circle">✓</div><span class="step-label">Panier</span></div>
+      <div class="step-item active" id="st2"><div class="step-circle">2</div><span class="step-label">Livraison</span></div>
+      <div class="step-item" id="st3"><div class="step-circle">3</div><span class="step-label">Paiement</span></div>
+      <div class="step-item" id="st4"><div class="step-circle">4</div><span class="step-label">Confirmation</span></div>
+    </div>
+    <div class="checkout-grid">
+      <div>
+        <div class="checkout-main" id="checkout-delivery">
+          <h3>📍 Adresse de livraison</h3>
+          <div class="form-row" style="margin-bottom:14px;">
+            <div><label class="form-label">Prénom</label><input class="form-control" placeholder="Jean"/></div>
+            <div><label class="form-label">Nom</label><input class="form-control" placeholder="Mbala"/></div>
+          </div>
+          <div class="form-group"><label class="form-label">Téléphone</label><input class="form-control" placeholder="+243 8XX XXX XXX"/></div>
+          <div class="form-row" style="margin-bottom:14px;">
+            <div><label class="form-label">Ville</label><select class="form-control"><option>Kinshasa</option><option>Goma</option><option>Lubumbashi</option><option>Bukavu</option></select></div>
+            <div><label class="form-label">Commune</label><input class="form-control" placeholder="Gombe, Lingwala…"/></div>
+          </div>
+          <div class="form-group"><label class="form-label">Adresse complète</label><textarea class="form-control" placeholder="Numéro, avenue, quartier…" style="min-height:70px;"></textarea></div>
+          <h3 style="margin-top:20px;">🚚 Mode de livraison</h3>
+          <div class="delivery-options">
+            <div class="delivery-option selected" onclick="selectDelivery(this,1500)">
+              <div class="delivery-option-top"><span class="delivery-name">🏍️ Moto-express (même jour)</span><span class="delivery-price">1 500 FC</span></div>
+              <div class="delivery-desc">Livraison dans les 4h, Kinshasa uniquement</div>
+            </div>
+            <div class="delivery-option" onclick="selectDelivery(this,800)">
+              <div class="delivery-option-top"><span class="delivery-name">🚌 Agence transport (2–4 jours)</span><span class="delivery-price">800 FC</span></div>
+              <div class="delivery-desc">Disponible dans toutes les villes</div>
+            </div>
+            <div class="delivery-option" onclick="selectDelivery(this,0)">
+              <div class="delivery-option-top"><span class="delivery-name">📦 Point relais</span><span class="delivery-price">Gratuit</span></div>
+              <div class="delivery-desc">Récupérez au point relais le plus proche</div>
+            </div>
+          </div>
+          <div class="checkout-actions">
+            <button class="btn-back">← Retour</button>
+            <button class="btn-next" onclick="goToPayment()">Continuer →</button>
+          </div>
+        </div>
+        <div class="checkout-main" id="checkout-payment" style="display:none;">
+          <h3>💳 Moyen de paiement</h3>
+          <div class="payment-methods">
+            <div class="payment-method selected" onclick="selectPayment(this)"><div class="pm-icon">📱</div><div class="pm-name">Airtel Money</div></div>
+            <div class="payment-method" onclick="selectPayment(this)"><div class="pm-icon">💚</div><div class="pm-name">M-Pesa</div></div>
+            <div class="payment-method" onclick="selectPayment(this)"><div class="pm-icon">🟠</div><div class="pm-name">Orange Money</div></div>
+            <div class="payment-method" onclick="selectPayment(this)"><div class="pm-icon">💵</div><div class="pm-name">Cash livraison</div></div>
+          </div>
+          <div class="form-group" style="margin-top:18px;"><label class="form-label">Numéro Mobile Money</label><input class="form-control" placeholder="+243 8XX XXX XXX"/></div>
+          <div class="checkout-actions">
+            <button class="btn-back" onclick="backToDelivery()">← Retour</button>
+            <button class="btn-next" onclick="confirmOrder()">✅ Confirmer la commande</button>
+          </div>
+        </div>
+        <div class="checkout-main" id="checkout-confirm" style="display:none;text-align:center;padding:56px 28px;">
+          <div style="font-size:3.5rem;margin-bottom:16px;">🎉</div>
+          <h2 style="font-size:1.5rem;margin-bottom:10px;">Commande confirmée !</h2>
+          <p style="color:var(--grey-400);margin-bottom:24px;font-size:0.9rem;">Votre commande #FC-48291 a été reçue. Un message WhatsApp de confirmation a été envoyé.</p>
+          <button class="btn-primary" onclick="switchTab('tracking')">Suivre ma commande →</button>
+        </div>
+      </div>
+      <div class="order-summary">
+        <h4>Résumé de commande</h4>
+        <div class="order-item">
+          <div class="order-item-img">👗</div>
+          <div><div class="order-item-name">Robe wax taille M</div><div class="order-item-meta">Très bon état · Taille M</div></div>
+          <div class="order-item-price">16 500 FC</div>
+        </div>
+        <div class="order-item">
+          <div class="order-item-img">👟</div>
+          <div><div class="order-item-name">Sneakers Nike 42</div><div class="order-item-meta">Neuf · Taille 42</div></div>
+          <div class="order-item-price">27 500 FC</div>
+        </div>
+        <hr class="order-divider"/>
+        <div class="order-row"><span>Sous-total</span><span>44 000 FC</span></div>
+        <div class="order-row"><span>Livraison</span><span id="delivery-fee">1 500 FC</span></div>
+        <hr class="order-divider"/>
+        <div class="order-row order-total"><span>Total</span><span id="order-total">45 500 FC</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════
+     PANEL 5: TRACKING
+══════════════════════════════ -->
+<div class="panel" id="panel-tracking">
+  <div class="tracking">
+    <div class="tracking-header">
+      <div>
+        <div class="tracking-id">Commande #FC-48291</div>
+        <div style="color:white;font-size:1.05rem;font-weight:700;">2 articles — 45 500 FC</div>
+        <div style="color:rgba(255,255,255,0.6);font-size:0.78rem;margin-top:2px;">Kinshasa, Commune de Gombe</div>
+      </div>
+      <div class="tracking-status-badge">🚚 En route</div>
+    </div>
+    <div class="timeline">
+      <div class="timeline-item"><div class="timeline-dot done">✓</div><div class="timeline-content"><div class="timeline-label done">Commande confirmée</div><div class="timeline-desc">Paiement reçu via Airtel Money</div><div class="timeline-time">Aujourd'hui, 09:12</div></div></div>
+      <div class="timeline-item"><div class="timeline-dot done">✓</div><div class="timeline-content"><div class="timeline-label done">Vendeur notifié</div><div class="timeline-desc">WhatsApp envoyé — préparation en cours</div><div class="timeline-time">Aujourd'hui, 09:14</div></div></div>
+      <div class="timeline-item"><div class="timeline-dot done">✓</div><div class="timeline-content"><div class="timeline-label done">Article collecté</div><div class="timeline-desc">Le livreur a récupéré votre commande</div><div class="timeline-time">Aujourd'hui, 10:45</div></div></div>
+      <div class="timeline-item"><div class="timeline-dot active">🏍️</div><div class="timeline-content"><div class="timeline-label active">En route vers vous</div><div class="timeline-desc">Livraison estimée entre 13h00 et 15h00</div><div class="timeline-time">Aujourd'hui, 11:30</div></div></div>
+      <div class="timeline-item"><div class="timeline-dot">📦</div><div class="timeline-content"><div class="timeline-label">Livré</div><div class="timeline-desc">En attente</div></div></div>
+    </div>
+    <div class="rider-card">
+      <div style="font-size:2.5rem;">🏍️</div>
+      <div><div class="rider-name">Patient Lukusa</div><div class="rider-role">Livreur Frip'Congo — Kinshasa</div></div>
+      <button class="call-btn">📞 Appeler</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════
+     PANEL 6: WHATSAPP
+══════════════════════════════ -->
+<div class="panel" id="panel-whatsapp">
+  <div class="whatsapp">
+    <div class="wa-settings">
+      <h3>💬 Notifications WhatsApp</h3>
+      <p>Activez ou désactivez les messages automatiques envoyés aux acheteurs et vendeurs.</p>
+      <div class="wa-toggle-item"><div class="wa-toggle-label">Confirmation de commande (acheteur)<small>Envoyé dès que le paiement est confirmé</small></div><button class="toggle on" onclick="this.classList.toggle('on')"></button></div>
+      <div class="wa-toggle-item"><div class="wa-toggle-label">Notification au vendeur<small>Envoyé pour demander la préparation</small></div><button class="toggle on" onclick="this.classList.toggle('on')"></button></div>
+      <div class="wa-toggle-item"><div class="wa-toggle-label">Article collecté (acheteur)<small>Quand le livreur récupère la commande</small></div><button class="toggle on" onclick="this.classList.toggle('on')"></button></div>
+      <div class="wa-toggle-item"><div class="wa-toggle-label">Livraison en route (acheteur)<small>Avec numéro du livreur</small></div><button class="toggle on" onclick="this.classList.toggle('on')"></button></div>
+      <div class="wa-toggle-item"><div class="wa-toggle-label">Paiement vendeur<small>Confirmation du virement Mobile Money</small></div><button class="toggle on" onclick="this.classList.toggle('on')"></button></div>
+      <div class="wa-toggle-item"><div class="wa-toggle-label">Article approuvé (vendeur)<small>Quand admin approuve une annonce</small></div><button class="toggle" onclick="this.classList.toggle('on')"></button></div>
+    </div>
+    <div class="wa-preview">
+      <div class="wa-preview-header"><span style="font-size:1.3rem;">📱</span><div><div>Frip'Congo</div><div style="font-size:0.7rem;opacity:0.8;">Notifications automatiques</div></div></div>
+      <div class="wa-chat" id="wa-chat">
+        <div class="wa-bubble">🎉 <strong>Commande confirmée!</strong><br/>Merci pour votre achat sur Frip'Congo.<br/>Commande: <strong>#FC-48291</strong> — Total: <strong>45 500 FC</strong><div class="wa-bubble-time">09:12 ✓✓</div></div>
+        <div class="wa-bubble">👋 Bonjour Marie-Claire!<br/>Nouvelle vente! Préparez votre article:<br/><strong>Robe wax taille M</strong><br/>Un livreur passe vous voir d'ici 1h.<div class="wa-bubble-time">09:14 ✓✓</div></div>
+      </div>
+      <div class="wa-footer"><button class="sim-btn" onclick="simulateWA()">📨 Simuler une notification</button></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════
+     PANEL 7: INSCRIPTION
+══════════════════════════════ -->
+<div class="panel" id="panel-inscription">
+  <div class="registration">
+    <div>
+      <div class="form-card" style="margin-bottom:20px;">
+        <div class="form-card-header"><h3>✅ Inscription Vendeur — Étape 2/4</h3><p>Configurez votre boutique pour commencer à vendre</p></div>
+        <div class="form-body">
+          <div class="form-group"><label class="form-label">Nom de votre boutique *</label><input class="form-control" placeholder="Ex: Mode Kinshasa by Marie"/></div>
+          <div class="form-row">
+            <div class="form-group"><label class="form-label">Ville *</label><select class="form-control"><option>Kinshasa</option><option>Goma</option><option>Lubumbashi</option><option>Bukavu</option></select></div>
+            <div class="form-group"><label class="form-label">Commune</label><input class="form-control" placeholder="Gombe, Ngaliema…"/></div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Catégories vendues *</label>
+            <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:8px;">
+              <label style="display:flex;align-items:center;gap:6px;font-size:0.85rem;"><input type="checkbox" checked/> Femmes</label>
+              <label style="display:flex;align-items:center;gap:6px;font-size:0.85rem;"><input type="checkbox"/> Hommes</label>
+              <label style="display:flex;align-items:center;gap:6px;font-size:0.85rem;"><input type="checkbox" checked/> Chaussures</label>
+              <label style="display:flex;align-items:center;gap:6px;font-size:0.85rem;"><input type="checkbox"/> Enfants</label>
+              <label style="display:flex;align-items:center;gap:6px;font-size:0.85rem;"><input type="checkbox"/> Accessoires</label>
+            </div>
+          </div>
+          <div class="form-group"><label class="form-label">Numéro Mobile Money *</label><input class="form-control" placeholder="+243 8XX XXX XXX (Airtel / M-Pesa)"/></div>
+          <div class="form-group"><label class="form-label">Description de la boutique</label><textarea class="form-control" placeholder="Présentez votre boutique en quelques mots…"></textarea></div>
+          <div style="display:flex;gap:10px;">
+            <button class="btn-back-reg">← Retour</button>
+            <button class="btn-primary" style="flex:1;">Continuer → Vérification ID</button>
+          </div>
+        </div>
+      </div>
+      <div style="background:var(--green-light);border-radius:var(--radius);padding:20px;border:1.5px solid rgba(0,168,107,0.15);">
+        <h4 style="font-size:0.95rem;margin-bottom:12px;color:var(--green);">🏆 Avantages vendeur vérifié</h4>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <div style="display:flex;align-items:center;gap:8px;font-size:0.85rem;"><span style="color:var(--green);font-weight:700;">✓</span> Badge de confiance sur votre boutique</div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:0.85rem;"><span style="color:var(--green);font-weight:700;">✓</span> Limite de 50 articles (vs 5 non-vérifié)</div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:0.85rem;"><span style="color:var(--green);font-weight:700;">✓</span> Paiements plus rapides (24h vs 72h)</div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:0.85rem;"><span style="color:var(--green);font-weight:700;">✓</span> Priorité dans les résultats de recherche</div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:0.85rem;"><span style="color:var(--green);font-weight:700;">✓</span> Accès au tableau de bord analytique</div>
+        </div>
+      </div>
+    </div>
+    <div class="reg-steps">
+      <h4>Progression</h4>
+      <div class="reg-step-item done"><div class="reg-step-num">✓</div><div class="reg-step-name">Créer un compte</div></div>
+      <div class="reg-step-item active"><div class="reg-step-num">2</div><div class="reg-step-name">Profil boutique</div></div>
+      <div class="reg-step-item"><div class="reg-step-num">3</div><div class="reg-step-name">Vérification ID</div></div>
+      <div class="reg-step-item"><div class="reg-step-num">4</div><div class="reg-step-name">Confirmation</div></div>
+      <div style="margin-top:16px;padding:14px;background:var(--off-white);border-radius:var(--radius-sm);">
+        <div style="font-size:0.72rem;color:var(--grey-400);margin-bottom:8px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;">Pièces acceptées</div>
+        <div style="font-size:0.82rem;display:flex;flex-direction:column;gap:6px;color:var(--grey-800);">
+          <span>📇 Carte d'identité nationale</span>
+          <span>🛂 Passeport</span>
+          <span>🚗 Permis de conduire</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════
+     PANEL 8: ADMIN
+══════════════════════════════ -->
+<div class="panel" id="panel-admin">
+  <div class="dashboard">
+    <h2 style="font-size:1.4rem;margin-bottom:4px;">⚙️ Admin — Frip'Congo</h2>
+    <p style="color:var(--grey-400);margin-bottom:28px;font-size:0.88rem;">Gestion des annonces et des vendeurs</p>
+    <div class="stats-row">
+      <div class="stat-card"><span class="stat-card-val amber">284 500 FC</span><span class="stat-card-label">Commissions totales</span></div>
+      <div class="stat-card"><span class="stat-card-val red">18</span><span class="stat-card-label">Annonces en attente</span></div>
+      <div class="stat-card"><span class="stat-card-val green">3 280</span><span class="stat-card-label">Vendeurs actifs</span></div>
+      <div class="stat-card"><span class="stat-card-val green">98.2%</span><span class="stat-card-label">Taux d'approbation</span></div>
+    </div>
+    <div class="table-card" style="margin-bottom:20px;">
+      <div class="table-card-header">Annonces en attente <span class="badge">18</span></div>
+      <table>
+        <thead><tr><th>Article</th><th>Vendeur</th><th>Prix vendeur</th><th>Prix acheteur</th><th>Statut</th><th>Action</th></tr></thead>
+        <tbody>
+          <tr><td>👗 Robe de soirée rouge</td><td>Amina K.</td><td>22 000 FC</td><td>24 200 FC</td><td><span class="status-pill pending">En attente</span></td><td><button class="action-btn">✓ Approuver</button><button class="action-btn reject">✗ Refuser</button></td></tr>
+          <tr><td>👟 Jordan 1 Retro</td><td>Patrick M.</td><td>60 000 FC</td><td>66 000 FC</td><td><span class="status-pill pending">En attente</span></td><td><button class="action-btn">✓ Approuver</button><button class="action-btn reject">✗ Refuser</button></td></tr>
+          <tr><td>👔 Costume 3 pièces</td><td>Sylvie T.</td><td>35 000 FC</td><td>38 500 FC</td><td><span class="status-pill pending">En attente</span></td><td><button class="action-btn">✓ Approuver</button><button class="action-btn reject">✗ Refuser</button></td></tr>
+          <tr><td>👜 Sac Louis Vuitton</td><td>Carine L.</td><td>80 000 FC</td><td>88 000 FC</td><td><span class="status-pill pending">En attente</span></td><td><button class="action-btn">✓ Approuver</button><button class="action-btn reject">✗ Refuser</button></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="table-card">
+      <div class="table-card-header">Top vendeurs ce mois</div>
+      <table>
+        <thead><tr><th>#</th><th>Vendeur</th><th>Ventes</th><th>Commission</th><th>Note</th></tr></thead>
+        <tbody>
+          <tr><td>🥇</td><td>Marie-Claire B.</td><td>34</td><td>28 600 FC</td><td>⭐ 4.9</td></tr>
+          <tr><td>🥈</td><td>Jean-Pierre K.</td><td>28</td><td>22 400 FC</td><td>⭐ 4.8</td></tr>
+          <tr><td>🥉</td><td>Amina Diallo</td><td>21</td><td>18 900 FC</td><td>⭐ 4.7</td></tr>
+          <tr><td>4</td><td>Patrick Mbala</td><td>19</td><td>15 200 FC</td><td>⭐ 4.6</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════
+     PANEL 9: ANALYTICS
+══════════════════════════════ -->
+<div class="panel" id="panel-analytics">
+  <div class="analytics">
+    <h2 style="font-size:1.4rem;margin-bottom:4px;">📈 Analytiques — Frip'Congo</h2>
+    <p style="color:var(--grey-400);margin-bottom:28px;font-size:0.88rem;">Performances de la plateforme — Mars 2024</p>
+    <div class="stats-row">
+      <div class="stat-card"><span class="stat-card-val amber">284 500 FC</span><span class="stat-card-label">Commissions totales</span></div>
+      <div class="stat-card"><span class="stat-card-val green">2 845 000 FC</span><span class="stat-card-label">Volume total vendu</span></div>
+      <div class="stat-card"><span class="stat-card-val green">941</span><span class="stat-card-label">Commandes</span></div>
+      <div class="stat-card"><span class="stat-card-val" style="color:var(--grey-800)">12 422</span><span class="stat-card-label">Articles actifs</span></div>
+    </div>
+    <div class="two-col">
+      <div class="table-card" style="padding:24px;">
+        <div class="table-card-header" style="padding:0 0 14px;">Ventes par ville</div>
+        <div class="city-bar"><div class="city-bar-label">Kinshasa</div><div class="city-bar-track"><div class="city-bar-fill" style="width:75%;"></div></div><div class="city-bar-val">75%</div></div>
+        <div class="city-bar"><div class="city-bar-label">Lubumbashi</div><div class="city-bar-track"><div class="city-bar-fill" style="width:14%;opacity:0.7;"></div></div><div class="city-bar-val">14%</div></div>
+        <div class="city-bar"><div class="city-bar-label">Goma</div><div class="city-bar-track"><div class="city-bar-fill" style="width:8%;opacity:0.5;"></div></div><div class="city-bar-val">8%</div></div>
+        <div class="city-bar"><div class="city-bar-label">Bukavu</div><div class="city-bar-track"><div class="city-bar-fill" style="width:3%;opacity:0.35;"></div></div><div class="city-bar-val">3%</div></div>
+      </div>
+      <div class="table-card" style="padding:24px;">
+        <div class="table-card-header" style="padding:0 0 14px;">Ventes par catégorie</div>
+        <div class="city-bar"><div class="city-bar-label">Femmes</div><div class="city-bar-track"><div class="city-bar-fill" style="width:42%;"></div></div><div class="city-bar-val">42%</div></div>
+        <div class="city-bar"><div class="city-bar-label">Chaussures</div><div class="city-bar-track"><div class="city-bar-fill" style="width:23%;opacity:0.75;"></div></div><div class="city-bar-val">23%</div></div>
+        <div class="city-bar"><div class="city-bar-label">Hommes</div><div class="city-bar-track"><div class="city-bar-fill" style="width:21%;opacity:0.6;"></div></div><div class="city-bar-val">21%</div></div>
+        <div class="city-bar"><div class="city-bar-label">Enfants</div><div class="city-bar-track"><div class="city-bar-fill" style="width:14%;opacity:0.45;"></div></div><div class="city-bar-val">14%</div></div>
+      </div>
+    </div>
+    <div class="two-col" style="margin-top:20px;">
+      <div class="table-card" style="padding:24px;">
+        <div class="table-card-header" style="padding:0 0 14px;">Santé de la plateforme</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+          <div style="background:var(--green-light);border-radius:var(--radius);padding:16px;text-align:center;"><div style="font-size:1.5rem;font-weight:800;color:var(--green);">94.2%</div><div style="font-size:0.72rem;color:var(--grey-600);margin-top:2px;">Taux de complétion</div></div>
+          <div style="background:#FEF3C7;border-radius:var(--radius);padding:16px;text-align:center;"><div style="font-size:1.5rem;font-weight:800;color:var(--amber);">4.8/5</div><div style="font-size:0.72rem;color:var(--grey-600);margin-top:2px;">Satisfaction acheteur</div></div>
+          <div style="background:#FEE2E2;border-radius:var(--radius);padding:16px;text-align:center;"><div style="font-size:1.5rem;font-weight:800;color:var(--red);">3.2h</div><div style="font-size:0.72rem;color:var(--grey-600);margin-top:2px;">Délai moyen livraison</div></div>
+          <div style="background:var(--off-white);border-radius:var(--radius);padding:16px;text-align:center;"><div style="font-size:1.5rem;font-weight:800;color:var(--grey-800);">2.1%</div><div style="font-size:0.72rem;color:var(--grey-600);margin-top:2px;">Taux de retour</div></div>
+        </div>
+      </div>
+      <div class="table-card">
+        <div class="table-card-header">Moyens de paiement</div>
+        <table>
+          <thead><tr><th>Méthode</th><th>Transactions</th><th>Part</th></tr></thead>
+          <tbody>
+            <tr><td>📱 Airtel Money</td><td>412</td><td><span class="status-pill active">43.8%</span></td></tr>
+            <tr><td>💚 M-Pesa</td><td>298</td><td><span class="status-pill active">31.7%</span></td></tr>
+            <tr><td>🟠 Orange Money</td><td>156</td><td><span class="status-pill approved">16.6%</span></td></tr>
+            <tr><td>💵 Cash livraison</td><td>75</td><td><span class="status-pill rejected">8.0%</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <span class="footer-logo">Frip'Congo</span>
+    <p>La première friperie en ligne de la République Démocratique du Congo. Achetez malin, vendez vos articles, gagnez via Mobile Money.</p>
+    <p style="margin-top:12px;">📍 Kinshasa · Goma · Lubumbashi</p>
+  </div>
+  <div>
+    <h5>Acheter</h5>
+    <ul>
+      <li><a href="#">Toutes catégories</a></li>
+      <li><a href="#">Nouveautés</a></li>
+      <li><a href="#">Promotions</a></li>
+      <li><a href="#">Vendeurs certifiés</a></li>
+    </ul>
+  </div>
+  <div>
+    <h5>Vendre</h5>
+    <ul>
+      <li><a href="#">Comment vendre</a></li>
+      <li><a href="#">Commissions &amp; frais</a></li>
+      <li><a href="#">Paiement Mobile Money</a></li>
+      <li><a href="#">Devenir vendeur pro</a></li>
+    </ul>
+  </div>
+  <div>
+    <h5>Aide</h5>
+    <ul>
+      <li><a href="#">Centre d'aide</a></li>
+      <li><a href="#">Contact WhatsApp</a></li>
+      <li><a href="#">Politique de retour</a></li>
+      <li><a href="#">Conditions d'utilisation</a></li>
+    </ul>
+  </div>
+</footer>
+<div class="footer-bottom">© 2024 Frip'Congo · Tous droits réservés · Fait avec 💚 en RDC</div>
+
+<script>
+// ─── TAB SWITCHING ───
+function switchTab(id) {
+  const ids = ['accueil','vendre','vendeur','checkout','tracking','whatsapp','inscription','admin','analytics'];
+  document.querySelectorAll('.tab-btn').forEach((b,i) => b.classList.toggle('active', ids[i] === id));
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  const panel = document.getElementById('panel-' + id);
+  if(panel) { panel.classList.add('active'); window.scrollTo(0,64); }
+}
+
+// ─── PRODUCT GRID ───
+const products = [
+  {emoji:'👗', name:'Robe en wax bleue', meta:'Très bon état · Taille M', price:'16 500 FC', badge:'Très bon état', badgeType:''},
+  {emoji:'👟', name:'Nike Air Force 1', meta:'Neuf · Taille 42', price:'27 500 FC', badge:'Neuf', badgeType:'new'},
+  {emoji:'👔', name:'Chemise Oxford slim', meta:'Bon état · Taille L', price:'8 800 FC', badge:'Bon état', badgeType:'used'},
+  {emoji:'👜', name:'Sac à main tressé', meta:'Très bon état · Unique', price:'19 800 FC', badge:'Très bon état', badgeType:''},
+  {emoji:'🧥', name:'Veste en jean oversized', meta:'Neuf · Taille XL', price:'22 000 FC', badge:'Neuf', badgeType:'new'},
+  {emoji:'👖', name:'Jean slim noir', meta:'Bon état · Taille 38', price:'12 100 FC', badge:'Bon état', badgeType:'used'},
+  {emoji:'👒', name:'Chapeau de paille', meta:'Comme neuf · Unique', price:'5 500 FC', badge:'Comme neuf', badgeType:''},
+  {emoji:'🥿', name:'Mocassins cuir marron', meta:'Très bon état · 41', price:'14 300 FC', badge:'Très bon état', badgeType:''},
+];
+const grid = document.getElementById('products-grid');
+products.forEach(p => {
+  grid.innerHTML += `
+    <div class="product-card">
+      <div class="product-img">
+        ${p.emoji}
+        <span class="product-badge ${p.badgeType}">${p.badge}</span>
+        <button class="wishlist-btn">🤍</button>
+      </div>
+      <div class="product-info">
+        <div class="product-name">${p.name}</div>
+        <div class="product-meta">${p.meta}</div>
+        <div class="product-footer">
+          <span class="product-price">${p.price}</span>
+          <button class="add-cart-btn">+ Panier</button>
+        </div>
+      </div>
+    </div>`;
+});
+
+document.addEventListener('click', e => {
+  if(e.target.classList.contains('wishlist-btn'))
+    e.target.textContent = e.target.textContent === '🤍' ? '❤️' : '🤍';
+});
+
+// ─── PRICE CALCULATOR ───
+function calcPrice(val) {
+  const price = parseFloat(val) || 0;
+  const commission = Math.round(price * 0.10);
+  const fmt = v => v.toLocaleString('fr-FR') + ' FC';
+  document.getElementById('calc-seller').textContent = fmt(price);
+  document.getElementById('calc-commission').textContent = fmt(commission);
+  document.getElementById('calc-buyer').textContent = fmt(price + commission);
+  document.getElementById('calc-youget').textContent = fmt(price);
+  updateOrderTotal(currentDeliveryFee);
+}
+
+// ─── DELIVERY ───
+let currentDeliveryFee = 1500;
+function selectDelivery(el, fee) {
+  document.querySelectorAll('.delivery-option').forEach(d => d.classList.remove('selected'));
+  el.classList.add('selected');
+  currentDeliveryFee = fee;
+  updateOrderTotal(fee);
+}
+function updateOrderTotal(fee) {
+  document.getElementById('delivery-fee').textContent = fee === 0 ? 'Gratuit' : fee.toLocaleString('fr-FR') + ' FC';
+  document.getElementById('order-total').textContent = (44000 + fee).toLocaleString('fr-FR') + ' FC';
+}
+function selectPayment(el) {
+  document.querySelectorAll('.payment-method').forEach(p => p.classList.remove('selected'));
+  el.classList.add('selected');
+}
+function goToPayment() {
+  document.getElementById('checkout-delivery').style.display = 'none';
+  document.getElementById('checkout-payment').style.display = 'block';
+  document.getElementById('st2').classList.replace('active','done');
+  document.getElementById('st3').classList.add('active');
+}
+function backToDelivery() {
+  document.getElementById('checkout-payment').style.display = 'none';
+  document.getElementById('checkout-delivery').style.display = 'block';
+  document.getElementById('st3').classList.remove('active');
+  document.getElementById('st2').classList.replace('done','active');
+}
+function confirmOrder() {
+  document.getElementById('checkout-payment').style.display = 'none';
+  document.getElementById('checkout-confirm').style.display = 'block';
+  document.getElementById('st3').classList.replace('active','done');
+  document.getElementById('st4').classList.add('active','done');
+}
+
+// ─── WHATSAPP SIMULATOR ───
+const waMessages = [
+  "🏍️ <strong>Votre commande est en route!</strong><br/>Patient Lukusa vous livrera entre 13h–15h.<br/>📞 Contactez-le: +243 898 XXX XXX",
+  "✅ <strong>Article livré!</strong><br/>Merci pour votre confiance. Notez votre vendeur! ⭐",
+  "💰 <strong>Paiement reçu, Marie-Claire!</strong><br/>Virement de <strong>25 000 FC</strong> sur votre Airtel Money.",
+  "📦 <strong>Nouvel acheteur!</strong><br/>Votre article <em>Sneakers Nike 42</em> vient d'être commandé.",
+  "🎉 <strong>Votre annonce est approuvée!</strong><br/>Robe en wax bleue est maintenant en ligne.",
+];
+let waIdx = 0;
+function simulateWA() {
+  const chat = document.getElementById('wa-chat');
+  const now = new Date();
+  const time = now.getHours() + ':' + String(now.getMinutes()).padStart(2,'0');
+  const bubble = document.createElement('div');
+  bubble.className = 'wa-bubble';
+  bubble.innerHTML = waMessages[waIdx % waMessages.length] + `<div class="wa-bubble-time">${time} ✓✓</div>`;
+  chat.appendChild(bubble);
+  chat.scrollTop = chat.scrollHeight;
+  waIdx++;
+}
+
+// ─── ADMIN ACTIONS ───
+document.addEventListener('click', e => {
+  if(e.target.classList.contains('action-btn') && !e.target.classList.contains('reject')) {
+    const row = e.target.closest('tr');
+    if(row) { const pill = row.querySelector('.status-pill'); if(pill) { pill.className='status-pill active'; pill.textContent='Approuvé'; } row.querySelectorAll('.action-btn').forEach(b=>b.remove()); }
+  }
+  if(e.target.classList.contains('action-btn') && e.target.classList.contains('reject')) {
+    const row = e.target.closest('tr');
+    if(row) { const pill = row.querySelector('.status-pill'); if(pill) { pill.className='status-pill rejected'; pill.textContent='Refusé'; } row.querySelectorAll('.action-btn').forEach(b=>b.remove()); }
+  }
+});
+</script>
+</body>
+</html>
